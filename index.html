@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQBot | Smart Self-Service Assistant</title>
+  <meta name="description" content="Intelligent self-service FAQ chatbot website built with HTML, CSS, and JavaScript.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Mobile Sidebar Backdrop -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-wrapper">
+          <div class="brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+              <rect x="3" y="8" width="18" height="12" rx="4"/>
+              <path d="M9 13v2"/>
+              <path d="M15 13v2"/>
+              <path d="M9 17h6"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="brand-title">FAQBot</h1>
+            <p class="brand-subtitle"><span class="status-dot"></span> Online &amp; Ready</p>
+          </div>
+        </div>
+        <button id="closeSidebarBtn" class="sidebar-close-btn" aria-label="Close sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <!-- Categories Section -->
+        <div>
+          <h2 class="sidebar-section-title">Knowledge Topics</h2>
+          <ul id="categoryList" class="category-list">
+            <!-- Dynamically populated categories -->
+          </ul>
+        </div>
+
+        <!-- Quick FAQs Section -->
+        <div>
+          <h2 class="sidebar-section-title">Popular Questions</h2>
+          <div id="quickFaqsContainer" class="quick-faqs-container">
+            <!-- Dynamically populated quick prompts -->
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <button id="themeToggleBtn" class="icon-btn" title="Toggle dark/light mode">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <span id="themeLabel">Dark Mode</span>
+        </button>
+
+        <button id="clearChatBtn" class="icon-btn" title="Clear chat history">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          <span>Reset</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Chat View -->
+    <main class="main-chat">
+      <!-- Navbar -->
+      <header class="chat-navbar">
+        <div class="navbar-left">
+          <button id="openSidebarBtn" class="mobile-toggle-btn" aria-label="Open sidebar">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="navbar-agent-info">
+            <span class="agent-name">
+              FAQ Virtual Assistant
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#10b981">
+                <circle cx="12" cy="12" r="10"></circle>
+              </svg>
+            </span>
+            <span class="agent-status">Answers instant queries 24/7</span>
+          </div>
+        </div>
+
+        <div class="navbar-actions">
+          <button id="openKnowledgeModalBtn" class="icon-btn primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span>Browse All FAQs</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Message History Container -->
+      <section id="messagesContainer" class="messages-container">
+        
+        <!-- Welcome Hero Banner -->
+        <div id="welcomeHero" class="welcome-hero">
+          <div class="welcome-icon-box">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </div>
+          <h2 class="welcome-title">How can we help you today?</h2>
+          <p class="welcome-desc">
+            Ask any question in natural language below, or click any topic to get immediate answers.
+          </p>
+          <div id="heroPromptGrid" class="hero-prompt-grid">
+            <!-- Starter prompt cards populated by JS -->
+          </div>
+        </div>
+
+        <!-- Chat messages appended dynamically -->
+
+        <!-- Typing Indicator Bubble -->
+        <div id="typingIndicator" class="message-row bot" style="display: none;">
+          <div class="avatar bot">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+              <circle cx="12" cy="5" r="2"></circle>
+              <path d="M12 7v4"></path>
+              <line x1="8" y1="16" x2="8" y2="16"></line>
+              <line x1="16" y1="16" x2="16" y2="16"></line>
+            </svg>
+          </div>
+          <div class="message-body">
+            <div class="bubble typing-indicator">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Scrollable Suggestion Chips Bar -->
+      <div id="quickPromptsBar" class="quick-prompts-bar">
+        <!-- Dynamically injected chips -->
+      </div>
+
+      <!-- Chat Input Area -->
+      <div class="chat-input-wrapper">
+        <!-- Autocomplete Suggestions List -->
+        <div id="autocompleteDropdown" class="autocomplete-dropdown" role="listbox"></div>
+
+        <form id="chatForm" class="chat-form" autocomplete="off">
+          <input
+            type="text"
+            id="chatInput"
+            class="chat-input"
+            placeholder="Type your question here (e.g. 'How do I reset password?')..."
+            aria-label="Chat input"
+            required
+          />
+          <button type="submit" id="sendBtn" class="send-btn" aria-label="Send message">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </form>
+        <p class="input-footer-hint">Type naturally or pick a suggested topic. Answers are matched instantly from the knowledge base.</p>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Knowledge Base Modal (Accordion View) -->
+  <div id="knowledgeModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modalTitle" class="modal-title">Browse Knowledge Base</h2>
+        <button id="closeKnowledgeModalBtn" class="modal-close-btn" aria-label="Close modal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-search-box">
+        <input 
+          type="text" 
+          id="modalSearchInput" 
+          class="modal-search-input" 
+          placeholder="Filter FAQs by keyword..."
+        />
+      </div>
+      <div id="modalBody" class="modal-body">
+        <!-- Dynamically rendered accordion items -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="faqs.js"></script>
+  <script src="chatbot.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
